@@ -2,9 +2,7 @@ import os
 from dotenv import load_dotenv
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import MarkdownTextSplitter
-from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_groq import ChatGroq
-from langchain_community.vectorstores import Chroma
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
@@ -29,6 +27,7 @@ def get_vector_store():
 
     # Embeddings - Local (Free, Unlimited)
     print("Initializing HuggingFace Embeddings (Local)...")
+    from langchain_huggingface import HuggingFaceEmbeddings
     embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
     # Create/Load Vector Store
