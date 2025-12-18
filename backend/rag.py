@@ -35,6 +35,13 @@ def get_vector_store():
     try:
         from langchain_community.vectorstores import Chroma
         
+        # Check if running in a cloud environment (like Render) where filesystem might be ephemeral/readonly
+        # or simply force InMemory for simpler maintenance on free tiers
+        is_cloud = os.getenv("RENDER") or os.getenv("RAILWAY_ENVIRONMENT")
+        
+        if is_cloud:
+             raise ImportError("Force InMemory for Cloud")
+
         # Simple Logic: If we are initializing, just overwrite to ensure fresh data
         # In a real app, you'd check hashes. Here, we force fresh for the user.
         vectordb = Chroma.from_documents(
@@ -44,7 +51,7 @@ def get_vector_store():
         )
         print("Initialized (and Refreshed) ChromaDB VectorStore")
     except Exception as e:
-        print(f"ChromaDB failed ({e}), falling back to InMemoryVectorStore")
+        print(f"ChromaDB skipped/failed ({e}), using InMemoryVectorStore")
         from langchain_core.vectorstores import InMemoryVectorStore
         vectordb = InMemoryVectorStore.from_documents(
             documents=texts,
