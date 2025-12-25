@@ -37,8 +37,9 @@ const ChatWidget = () => {
         setIsLoading(true);
 
         try {
-            // Use 127.0.0.1 to avoid localhost IPv6 resolution issues
-            const response = await axios.post('http://127.0.0.1:8000/chat', { message: userMessage });
+            // Use environment variable or default to 127.0.0.1
+            const apiUrl = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
+            const response = await axios.post(`${apiUrl}/chat`, { message: userMessage });
             const botResponse = response.data.answer;
 
             setMessages(prev => [...prev, { role: 'assistant', text: botResponse }]);
