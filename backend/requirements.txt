@@ -4,8 +4,7 @@ python-dotenv
 langchain
 langchain-community
 langchain-groq
-langchain-huggingface
-sentence-transformers
+fastembed
 chromadb
 pydantic
 python-multipart

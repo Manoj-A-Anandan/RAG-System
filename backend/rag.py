@@ -25,10 +25,9 @@ def get_vector_store():
     text_splitter = MarkdownTextSplitter(chunk_size=1000, chunk_overlap=200)
     texts = text_splitter.split_documents(documents)
 
-    # Embeddings - Local (Free, Unlimited)
-    print("Initializing HuggingFace Embeddings (Local)...")
-    from langchain_huggingface import HuggingFaceEmbeddings
-    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+    # Embeddings - FastEmbed (Free, local, CPU-based ONNX model - fits in 512MB RAM)
+    from langchain_community.embeddings import FastEmbedEmbeddings
+    embeddings = FastEmbedEmbeddings()
 
     # Create/Load Vector Store
     try:
